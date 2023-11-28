@@ -8,12 +8,33 @@ public class RegisterMember {
     public void run() {
         System.out.print("Write name of new member: ");
         String name = console.nextLine();
-        nameExists(name);
+        if (new ConfigureMember().nameExists(name)) {
+            overrideOrConfigure(name);
+        }
 
-        // Test whether input can be read as a LocalDate
-        String birthDate = isDate();
+        String birthDate;
         
-        String activity = isActivity();
+        birthDate_loop:
+        while (true) {
+            System.out.print("Write date og birth of new member: ");
+            birthDate = console.nextLine();
+
+            // Test whether input can be read as a LocalDate
+            if (isDate(birthDate)) {
+                break birthDate_loop;
+            }
+        }
+
+        String activity;
+
+        activity_loop:
+        while (true) {
+            System.out.print("Type of activity? [exercise/competitive/none]: ");
+            activity = console.nextLine();
+            if (isActivity(activity)) {
+                break activity_loop;
+            }
+        }
 
         // Combine member details into one String and save it to a file
         String newMember = name + ";" + birthDate + ";" + activity + ";" + LocalDate.now() + ";false\n";
@@ -21,50 +42,24 @@ public class RegisterMember {
 
     }
 
-    private void nameExists(String name) {
+    public boolean isDate(String birthDate) {
         try {
-            var fileReader = new Scanner(new File("Members.csv"));
-            while (fileReader.hasNextLine()) {
-                var tokenReader = new Scanner(fileReader.nextLine());
-                tokenReader.useDelimiter(";");
-                if (tokenReader.next().equals(name)) {
-                    overrideOrConfigure();
-                }
-            }
-            fileReader.close();
-        } catch (Exception e) {}
-    }
-
-    private String isDate() {
-        while (true) {
-            System.out.print("Write date og birth of new member: ");
-            String birthDate = console.nextLine();
-            try {
-                LocalDate.parse(birthDate);
-                return birthDate;
-            } catch (Exception e) {
-                System.out.println("Date must be formatted as (yyyy-MM-dd).");
-            }
+            LocalDate.parse(birthDate);
+            return true;
+        } catch (Exception e) {
+            System.out.println("Date must be formatted as (yyyy-MM-dd).");
+            return false;
         }
     }
 
-    private String isActivity() {
-        while (true) {
-            System.out.print("Type of activity? [exercise/competitive/none]: ");
-            String activity = console.nextLine();
-
-            switch (activity) {
-                case "exercise":
-                    return "exercise";
-                case "competitive":
-                    return "competitive";
-                case "none":
-                    return "none";
-                default:
-                    System.out.println("Activity must be either \"exercise\", \"competitive\" or \"none\".");
-            }
+    public boolean isActivity(String activity) {
+        switch (activity) {
+            case "exercise", "competitive", "none":
+                return true;
+            default:
+                System.out.println("Activity must be either \"exercise\", \"competitive\" or \"none\".");
+                return false;
         }
-    
     }
 
     private void writeToFile(String newMember) {
@@ -75,7 +70,7 @@ public class RegisterMember {
         } catch(Exception e) {}
     }
 
-    private void overrideOrConfigure() {
+    private void overrideOrConfigure(String name) {
         System.out.print("""
             Member with this name already exists.
             You can either:
@@ -91,11 +86,9 @@ public class RegisterMember {
                 case "1":
                     return;
                 case "2":
-                    // run option to change member details when that class and method is written.
-                    // run main options loop
-                    System.exit(0);
+                    new EditMemberDetails(name).run();
                 case "0":
-                    // run main options loop
+                    new ConfigureMember().run();
                     System.exit(0);
             }
         }
