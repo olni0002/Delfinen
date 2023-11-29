@@ -1,17 +1,14 @@
-package test;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Kassere {
 
+    private ArrayList<String> strings = new ArrayList<>();
 
-
-
-    public void reader(){
+    public void reader() {
         Scanner scanner = new Scanner(System.in);
-        ArrayList<String> strings = new ArrayList<>();
+        ArrayList<String> strings1 = new ArrayList<>();
         ArrayList<String> nameList = new ArrayList<>();
         String value;
         boolean hassan = true;
@@ -20,33 +17,34 @@ public class Kassere {
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader("file.csv"));
             while ((value = bufferedReader.readLine()) != null) {
-                strings.add(value);
+                strings1.add(value);
             }
-            for (int i = 0; i <strings.size() ; i++) {
-                String[] variableDeler = strings.get(i).split(";");
+            for (int i = 0; i < strings1.size(); i++) {
+                String[] variableDeler = strings1.get(i).split(";");
                 String namesOnly = variableDeler[0];
                 nameList.add(namesOnly);
             }
+
             System.out.println("angiv en person du vil ændre betalingsstatus på");
             String name = scanner.nextLine();
 
 
-            while (hassan){
-                if(nameList.contains(name)){
+            while (hassan) {
+                if (nameList.contains(name)) {
 
-                    for (int i = 0; i < strings.size(); i++) {
-                        String[] variableDeler = strings.get(i).split(";");
-                        if (strings.get(i).contains("false") && strings.get(i).contains(name)) {
+                    for (int i = 0; i < strings1.size(); i++) {
+                        String[] variableDeler = strings1.get(i).split(";");
+                        if (strings1.get(i).contains("false") && strings1.get(i).contains(name)) {
                             variableDeler[4] = "true";
                             hassan = false;
-                        } else if (strings.get(i).contains("true") && strings.get(i).contains(name)) {
+                        } else if (strings1.get(i).contains("true") && strings1.get(i).contains(name)) {
                             variableDeler[4] = "false";
                             hassan = false;
                         }
-                        strings.set(i, String.join(";", variableDeler));
+                        strings1.set(i, String.join(";", variableDeler));
 
                     }
-                }else {
+                } else {
                     System.out.println("name does not exist");
                     name = scanner.nextLine();
                 }
@@ -54,8 +52,8 @@ public class Kassere {
 
 
             try (BufferedWriter writer = new BufferedWriter(new FileWriter("file.csv"))) {
-                for (int i = 0; i <strings.size() ; i++) {
-                    writer.write(strings.get(i));
+                for (int i = 0; i < strings1.size(); i++) {
+                    writer.write(strings1.get(i));
                     writer.newLine();
                 }
 
@@ -68,22 +66,50 @@ public class Kassere {
         }
 
 
-
         System.out.println("RESTENCELISTE");
-        for (int i = 0; i < strings.size(); i++) {
-            if(strings.get(i).contains("false")){
-                System.out.println(strings.get(i));
+        for (int i = 0; i < strings1.size(); i++) {
+            if (strings1.get(i).contains("false")) {
+                System.out.println(strings1.get(i));
             }
+
         }
 
+        System.out.println("DUES PAYMENT LIST");
+        for (int i = 0; i < strings1.size(); i++) {
+            String[] variableDeler = strings1.get(i).split(";");
+            String name = variableDeler[0];
+            String birthDate = variableDeler[1];
+            String activity = variableDeler[2];
+            boolean paymentStatus = Boolean.parseBoolean(variableDeler[4]);
 
+            int age = calculateAge(birthDate);
+
+            double duesPayment = calculateDuesPayment(activity, age, paymentStatus);
+
+            System.out.println(name + " - Dues Payment: " + duesPayment + " DKK - Payment Status: " + (paymentStatus ? "Paid" : "Not Paid"));
+        }
+    }
+    private int calculateAge(String birthDate) {
+        int currentYear = java.time.Year.now().getValue();
+        int birthYear = Integer.parseInt(birthDate.split("-")[0]);
+        return currentYear - birthYear;
     }
 
+    private double calculateDuesPayment(String activity, int age, boolean paymentStatus) {
+        double basePayment = 0;
 
+        if (activity.equals("exercise") || activity.equals("competitive")) {
+            if (age < 18) {
+                basePayment = 1000;
+            } else if (age >= 18 && age < 60) {
+                basePayment = 1600;
+            } else if (age >= 60) {
+                basePayment = 1600 * 0.75; // 25% discount for members over 60
+            }
+        } else if (activity.equals("none")) {
+                basePayment = 500;
+        }
 
-
-
-
-
-
+      return basePayment;
+    }
 }
