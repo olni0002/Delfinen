@@ -1,6 +1,5 @@
 import java.util.*;
-import java.io.*;
-import java.time.LocalDate;
+import java.io.File;
 
 public class ConfigureMember {
     Scanner console = new Scanner(System.in);
@@ -19,7 +18,8 @@ public class ConfigureMember {
             choice_loop:
             while (true) {
                 System.out.print("Pick an option (0 to cancel) [1-4]: ");
-                String choice = console.nextLine();
+                String choice = console.nextLine().strip();
+                ConsoleCommands.clearScreen();
 
                 switch (choice) {
                     case "0":
@@ -29,10 +29,11 @@ public class ConfigureMember {
                         break choice_loop;
                     case "2":
                         System.out.print("Which member do you want to edit?: ");
-                        String memberName = console.nextLine();
-                        
-                        if (!(nameExists(memberName))) {
-                            System.out.println(memberName + " is not a registered member.");
+                        String memberName = console.nextLine().strip();
+                        ConsoleCommands.clearScreen();
+
+                        if (!(CheckUserInput.nameExists(memberName))) {
+                            System.out.println(memberName + " is not a registered member.\n");
                             break choice_loop;
                         }
 
@@ -41,6 +42,7 @@ public class ConfigureMember {
                     case "3":
                         System.out.print("Which member(s) do you want to delete (semicolon seperated list)?: ");
                         String[] names = console.nextLine().strip().split(";");
+                        ConsoleCommands.clearScreen();
                         deleteMember(names);
                         break choice_loop;
                     case "4":
@@ -52,57 +54,8 @@ public class ConfigureMember {
         }
     }
 
-    public HashMap<String, Member> loadMemberList() {
-        var memberList = new HashMap<String, Member>();
-        
-        try {
-            var fileScanner = new Scanner(new File("Members.csv"));
-
-            while (fileScanner.hasNextLine()) {
-                String[] ln = fileScanner.nextLine().split(";");
-                var member = new Member(ln[0], LocalDate.parse(ln[1]), ln[2], LocalDate.parse(ln[3]), Boolean.parseBoolean(ln[4]));
-                memberList.put(member.getName(), member);
-            }
-
-            fileScanner.close();
-        } catch (Exception e) {}
-
-        return memberList;
-    }
-
-    public void writeToFile(HashMap<String, Member> memberList) {
-        try {
-            var fileWriter = new FileWriter(new File("Members.csv"));
-
-            for (Member member : memberList.values()) {
-                fileWriter.write(member.getName() + ";");
-                fileWriter.write(member.getBirthDate() + ";");
-                fileWriter.write(member.getActivity());
-                fileWriter.write(member.getRegistrationDate() + ";");
-                fileWriter.write(member.getPaymentStatus() + "\n");
-            }
-
-            fileWriter.close();
-        } catch (Exception e) {}
-    }
-
-    public boolean nameExists(String name) {
-        try {
-            var fileScanner = new Scanner(new File("Members.csv"));
-            while (fileScanner.hasNextLine()) {
-                String nextLine = fileScanner.nextLine();
-                if (name.equalsIgnoreCase(nextLine.substring(0, nextLine.indexOf(";")))) {
-                    fileScanner.close();
-                    return true;
-                }
-            }
-            fileScanner.close();
-        } catch (Exception e) {}
-        return false;
-    }
-
     private void deleteMember(String[] names) {
-        HashMap<String, Member> memberList = loadMemberList();
+        HashMap<String, Member> memberList = MemberList.loadMemberList();
  
         boolean canBeDeleted = false;
         String success = "";
@@ -122,7 +75,7 @@ public class ConfigureMember {
             return;
         }
 
-        writeToFile(memberList);
+        MemberList.saveListToFile(memberList);
         System.out.println(success);
     }
 
@@ -135,7 +88,7 @@ public class ConfigureMember {
             }
         } catch (Exception e) {}
 
-        HashMap<String, Member> memberList = loadMemberList();
+        HashMap<String, Member> memberList = MemberList.loadMemberList();
         for (String name : memberList.keySet()) {
             System.out.println(name);
         }

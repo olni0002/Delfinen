@@ -14,7 +14,7 @@ public class EditMemberDetails {
         
         choice_loop:
         while (true) {
-            memberList = new ConfigureMember().loadMemberList();
+            memberList = MemberList.loadMemberList();
 
             System.out.println("You can edit the following details of " + memberName + ":");
             System.out.println("""
@@ -25,42 +25,42 @@ public class EditMemberDetails {
             
             while (true) {
                 System.out.print("Choose what to edit (0 to cancel) [1-3]: ");
-                String choice = console.nextLine();
+                String choice = console.nextLine().strip();
+                ConsoleCommands.clearScreen();
 
                 switch (choice) {
                     case "0":
                         return;
                     case "1":
-                        new ConfigureMember().writeToFile(editName());
+                        editName();
                         break choice_loop;
                     case "2":
-                        new ConfigureMember().writeToFile(editBirthDate());
+                        editBirthDate();
                         break choice_loop;
                     case "3":
-                        new ConfigureMember().writeToFile(editActivity());
+                        editActivity();
                         break choice_loop;
                 }
             }
         }
     }
 
-    private HashMap<String, Member> editName() {
+    private void editName() {
         Member member = memberList.get(memberName);
 
         System.out.println("Current name of " + memberName + " is: " + member.getName());
         System.out.print("Write new name of " + memberName + ": ");
-        String newName = console.nextLine();
+        String newName = console.nextLine().strip();
 
         member.setName(newName);
-
 
         memberList.remove(memberName);
         memberList.put(newName, member);
 
-        return memberList;
+        MemberList.saveListToFile(memberList);
     }
 
-    private HashMap<String, Member> editBirthDate() {
+    private void editBirthDate() {
         Member member = memberList.get(memberName);
         
         String newBirthDate;
@@ -69,10 +69,10 @@ public class EditMemberDetails {
         while (true) {
             System.out.println("Current birthDate of " + memberName + " is: " + member.getBirthDate());
             System.out.print("Write new birthDate of " + memberName + ": ");
-            newBirthDate = console.nextLine();
+            newBirthDate = console.nextLine().strip();
 
             // Test whether input can be read as a LocalDate
-            if (new RegisterMember().isDate(newBirthDate)) {
+            if (CheckUserInput.isDate(newBirthDate)) {
                 break newBirthDate_loop;
             }
         }
@@ -81,10 +81,10 @@ public class EditMemberDetails {
 
         memberList.replace(memberName, member);
 
-        return memberList;
+        MemberList.saveListToFile(memberList);
     }
 
-    private HashMap<String, Member> editActivity() {
+    private void editActivity() {
         Member member = memberList.get(memberName);
         
         String newActiviy;
@@ -93,10 +93,10 @@ public class EditMemberDetails {
         while (true) {
             System.out.println("Current activity of " + memberName + " is: " + member.getActivity());
             System.out.print("Write new activity of " + memberName + ": ");
-            newActiviy = console.nextLine();
+            newActiviy = console.nextLine().strip();
 
             // Test whether input is an activity
-            if (new RegisterMember().isActivity(newActiviy)) {
+            if (CheckUserInput.isActivity(newActiviy)) {
                 break newActivity_loop;
             }
         }
@@ -105,6 +105,6 @@ public class EditMemberDetails {
 
         memberList.replace(memberName, member);
 
-        return memberList;
+        MemberList.saveListToFile(memberList);
     }
 }

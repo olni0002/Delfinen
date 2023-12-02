@@ -1,3 +1,4 @@
+import java.io.*;
 import java.time.LocalDate;
 
 public class Member {
@@ -13,6 +14,20 @@ public class Member {
         this.activity = activity;
         this.registrationDate = registrationDate;
         this.paymentStatus = paymentStatus;
+    }
+
+    public void writeMemberToFile() {
+        try {
+            var fileWriter = new FileWriter(new File("Members.csv"), true);
+            
+            fileWriter.append(this.getName() + ";");
+            fileWriter.append(this.getBirthDate() + ";");
+            fileWriter.append(this.getActivity());
+            fileWriter.append(this.getRegistrationDate() + ";");
+            fileWriter.append(this.getPaymentStatus() + "\n");
+
+            fileWriter.close();
+        } catch(Exception e) {}
     }
 
     public String getName() {

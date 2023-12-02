@@ -1,14 +1,13 @@
-import java.util.*;
-import java.io.*;
-import java.time.*;
+import java.util.Scanner;
+import java.time.LocalDate;
 
 public class RegisterMember {
-    private Scanner console = new Scanner(System.in);
+    Scanner console = new Scanner(System.in);
     
     public void run() {
         System.out.print("Write name of new member: ");
-        String name = console.nextLine();
-        if (new ConfigureMember().nameExists(name)) {
+        String name = console.nextLine().strip();
+        if (CheckUserInput.nameExists(name)) {
             overrideOrConfigure(name);
         }
 
@@ -17,10 +16,10 @@ public class RegisterMember {
         birthDate_loop:
         while (true) {
             System.out.print("Write date og birth of new member: ");
-            birthDate = console.nextLine();
+            birthDate = console.nextLine().strip();
 
             // Test whether input can be read as a LocalDate
-            if (isDate(birthDate)) {
+            if (CheckUserInput.isDate(birthDate)) {
                 break birthDate_loop;
             }
         }
@@ -30,44 +29,15 @@ public class RegisterMember {
         activity_loop:
         while (true) {
             System.out.print("Type of activity? [exercise/competitive/none]: ");
-            activity = console.nextLine();
-            if (isActivity(activity)) {
+            activity = console.nextLine().strip();
+            if (CheckUserInput.isActivity(activity)) {
                 break activity_loop;
             }
         }
 
         // Combine member details into one String and save it to a file
-        String newMember = name + ";" + birthDate + ";" + activity + ";" + LocalDate.now() + ";false\n";
-        writeToFile(newMember);
-
-    }
-
-    public boolean isDate(String birthDate) {
-        try {
-            LocalDate.parse(birthDate);
-            return true;
-        } catch (Exception e) {
-            System.out.println("Date must be formatted as (yyyy-MM-dd).");
-            return false;
-        }
-    }
-
-    public boolean isActivity(String activity) {
-        switch (activity) {
-            case "exercise", "competitive", "none":
-                return true;
-            default:
-                System.out.println("Activity must be either \"exercise\", \"competitive\" or \"none\".");
-                return false;
-        }
-    }
-
-    private void writeToFile(String newMember) {
-        try {
-            var fileWriter = new FileWriter(new File("Members.csv"), true);
-            fileWriter.append(newMember);
-            fileWriter.close();
-        } catch(Exception e) {}
+        Member newMember = new Member(name, LocalDate.parse(birthDate), activity, LocalDate.now(), false);
+        newMember.writeMemberToFile();
     }
 
     private void overrideOrConfigure(String name) {
@@ -81,7 +51,9 @@ public class RegisterMember {
 
         while (true) {
             System.out.print("Which option do you choose (0 to cancel)? [1-2]: ");
-            String choice = console.nextLine();
+            String choice = console.nextLine().strip();
+            ConsoleCommands.clearScreen();
+
             switch (choice) {
                 case "1":
                     return;
@@ -89,9 +61,12 @@ public class RegisterMember {
                     new EditMemberDetails(name).run();
                 case "0":
                     new ConfigureMember().run();
+
+                    // run main options loop
+
+                    ConsoleCommands.clearScreen();
                     System.exit(0);
             }
         }
     }
-
 }
