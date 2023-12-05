@@ -60,72 +60,77 @@ public class Kassere {
         String value;
         boolean hassan = true;
 
-
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader("file.csv"));
-            while ((value = bufferedReader.readLine()) != null) {
-                strings1.add(value);
-            }
-            for (int i = 0; i < strings1.size(); i++) {
-                String[] variableDeler = strings1.get(i).split(";");
-                String namesOnly = variableDeler[0];
-                nameList.add(namesOnly);
-            }
-
-            System.out.println("angiv en person du vil ændre betalingsstatus på");
-            String name = scanner.nextLine();
-
-
-            while (hassan) {
-                if (nameList.contains(name)) {
-
-                    for (int i = 0; i < strings1.size(); i++) {
-                        String[] variableDeler = strings1.get(i).split(";");
-                        if (strings1.get(i).contains("false") && strings1.get(i).contains(name)) {
-                            variableDeler[4] = "true";
-                            hassan = false;
-                        } else if (strings1.get(i).contains("true") && strings1.get(i).contains(name)) {
-                            variableDeler[4] = "false";
-                            hassan = false;
-                        }
-                        strings1.set(i, String.join(";", variableDeler));
-
-                    }
-                } else {
-                    System.out.println("name does not exist");
-                    name = scanner.nextLine();
+        File file = new File("file.csv");
+        if(file.exists()){
+            try {
+                BufferedReader bufferedReader = new BufferedReader(new FileReader("file.csv"));
+                while ((value = bufferedReader.readLine()) != null) {
+                    strings1.add(value);
                 }
-            }
-
-
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("file.csv"))) {
                 for (int i = 0; i < strings1.size(); i++) {
-                    writer.write(strings1.get(i));
-                    writer.newLine();
+                    String[] variableDeler = strings1.get(i).split(";");
+                    String namesOnly = variableDeler[0];
+                    nameList.add(namesOnly);
                 }
 
+                System.out.println("angiv en person du vil ændre betalingsstatus på");
+                String name = scanner.nextLine();
+
+
+                while (hassan) {
+                    if (nameList.contains(name)) {
+
+                        for (int i = 0; i < strings1.size(); i++) {
+                            String[] variableDeler = strings1.get(i).split(";");
+                            if (strings1.get(i).contains("false") && strings1.get(i).contains(name)) {
+                                variableDeler[4] = "true";
+                                hassan = false;
+                            } else if (strings1.get(i).contains("true") && strings1.get(i).contains(name)) {
+                                variableDeler[4] = "false";
+                                hassan = false;
+                            }
+                            strings1.set(i, String.join(";", variableDeler));
+
+                        }
+                    } else {
+                        System.out.println("name does not exist");
+                        name = scanner.nextLine();
+                    }
+                }
+
+
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter("file.csv"))) {
+                    for (int i = 0; i < strings1.size(); i++) {
+                        writer.write(strings1.get(i));
+                        writer.newLine();
+                    }
+
+                }
+
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
 
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("DUES PAYMENT LIST");
+            for (int i = 0; i < (strings1.size()-2); i++) {
+                String[] variableDeler = strings1.get(i).split(";");
+                String name = variableDeler[0];
+                String birthDate = variableDeler[1];
+                String activity = variableDeler[2];
+                boolean paymentStatus = Boolean.parseBoolean(variableDeler[4]);
+
+                int age = calculateAge(birthDate);
+
+                double duesPayment = calculateDuesPayment(activity, age, paymentStatus);
+
+                System.out.println(name + " - Dues Payment: " + duesPayment + " DKK - Payment Status: " + (paymentStatus ? "Paid" : "Not Paid"));
+            }
+        }else{
+            System.out.println("Du har ikke nogen i din liste");
         }
 
-        System.out.println("DUES PAYMENT LIST");
-        for (int i = 0; i < (strings1.size()-2); i++) {
-            String[] variableDeler = strings1.get(i).split(";");
-            String name = variableDeler[0];
-            String birthDate = variableDeler[1];
-            String activity = variableDeler[2];
-            boolean paymentStatus = Boolean.parseBoolean(variableDeler[4]);
-
-            int age = calculateAge(birthDate);
-
-            double duesPayment = calculateDuesPayment(activity, age, paymentStatus);
-
-            System.out.println(name + " - Dues Payment: " + duesPayment + " DKK - Payment Status: " + (paymentStatus ? "Paid" : "Not Paid"));
-        }
     }
     private int calculateAge(String birthDate) {
         int currentYear = java.time.Year.now().getValue();
