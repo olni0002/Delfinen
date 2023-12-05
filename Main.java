@@ -34,7 +34,7 @@ public class Main {
                         Kassere kas = new Kassere();
                         kas.menu();
                         break;
-                          case "5":
+                    case "5":
                         SwimManager.registerTime();
                         break;
                     case "6":
