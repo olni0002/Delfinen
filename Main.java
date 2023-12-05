@@ -2,12 +2,16 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        while (true) {
-            Menu.showMenu();
-            
-            Scanner console = new Scanner(System.in);
-            String choice;
+        new Main().run();
+    }
 
+    private void run() {
+        Scanner console = new Scanner(System.in);
+        String choice;
+        
+        while (true) {
+            showMenu();
+            
             choice_loop:
             while (true) {
                 System.out.print("Choose an option (0 to exit) [1-4]: ");
@@ -27,5 +31,18 @@ public class Main {
                 }
             }
         }
+    }
+
+    private void showMenu() {
+        System.out.println("""
+                Welcome to the administration program og club Dolphin.
+
+                You now have a number of options to choose from:
+
+                \t1) Configure member (Registration, deletion etc.)
+                \t2) Manage training results of swimmers
+                \t3) Register tournament results of swimmers
+                \t4) Manage financials (Payment status, revenue etc.)
+                """);
     }
 }
