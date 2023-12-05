@@ -1,10 +1,57 @@
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Kassere {
 
-    private ArrayList<String> strings = new ArrayList<>();
+    public void menu(){
+        boolean valg = true;
+        Scanner scanner = new Scanner(System.in);
+        while (valg){
+            menuwriter();
+            switch (scanner.nextInt()){
+                case 1:
+                    viewlist();
+                    break;
+                case 2:
+                    reader();
+                    break;
+                case 3:
+                    System.out.println("går ud . . .");
+                    valg = false;
+                    break;
+                default:
+                    System.out.println("dette er ikke en mulighed");
+                    break;
+            }
+        }
+    }
+    public void menuwriter(){
+        System.out.println("1. Se betalingsstatuser for alle");
+        System.out.println("2. Ændre betalinstadus for person");
+        System.out.println("3. Quit");
+    }
+
+    public void viewlist(){
+        String value;
+        File file = new File("file.csv");
+        if(file.exists()){
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader("file.csv"));
+                while((value = reader.readLine()) != null){
+                    System.out.println(value);
+                }
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }else{
+            System.out.println("der er ingen Begivenheder");
+        }
+
+    }
 
     public void reader() {
         Scanner scanner = new Scanner(System.in);
@@ -65,17 +112,8 @@ public class Kassere {
             throw new RuntimeException(e);
         }
 
-
-        System.out.println("RESTENCELISTE");
-        for (int i = 0; i < strings1.size(); i++) {
-            if (strings1.get(i).contains("false")) {
-                System.out.println(strings1.get(i));
-            }
-
-        }
-
         System.out.println("DUES PAYMENT LIST");
-        for (int i = 0; i < strings1.size(); i++) {
+        for (int i = 0; i < (strings1.size()-2); i++) {
             String[] variableDeler = strings1.get(i).split(";");
             String name = variableDeler[0];
             String birthDate = variableDeler[1];
@@ -107,9 +145,9 @@ public class Kassere {
                 basePayment = 1600 * 0.75; // 25% discount for members over 60
             }
         } else if (activity.equals("none")) {
-                basePayment = 500;
+            basePayment = 500;
         }
 
-      return basePayment;
+        return basePayment;
     }
 }
