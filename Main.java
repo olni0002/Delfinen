@@ -21,11 +21,11 @@ public class Main {
                     case "0":
                         System.exit(0);
                     case "1":
-                        Menu.configureMember();
+                        new ConfigureMember().run();
                         break choice_loop;
                     case "2":
                     case "3":
-                        Menu.registerTournamentResults();
+                        new RegisterTournamentResults();
                         break choice_loop;
                     case "4":
                 }
