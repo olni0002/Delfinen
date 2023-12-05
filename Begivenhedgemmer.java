@@ -44,16 +44,22 @@ public class Begivenhedgemmer {
     }
     public void viewlist(){
         String value;
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader("Begivenheder.txt"));
-            while((value = reader.readLine()) != null){
-                System.out.println(value);
+        File file = new File("Begivenheder.txt");
+        if(file.exists()){
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader("Begivenheder.txt"));
+                while((value = reader.readLine()) != null){
+                    System.out.println(value);
+                }
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        }else{
+            System.out.println("der er ingen Begivenheder");
         }
+
     }
 
     public void writer(){
