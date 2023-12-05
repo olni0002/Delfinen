@@ -54,6 +54,8 @@ public class Main {
                 \t2) Manage training results of swimmers
                 \t3) Register tournament results of swimmers
                 \t4) Manage financials (Payment status, revenue etc.)
+                \t5) Register training result.
+                \t6) Print top 5 times.
                 """);
     }
 }
