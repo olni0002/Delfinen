@@ -24,10 +24,15 @@ public class Main {
                         new ConfigureMember().run();
                         break choice_loop;
                     case "2":
+                        Begivenhedgemmer beg = new Begivenhedgemmer();
+                        beg.menu();
+                        break;
                     case "3":
                         new RegisterTournamentResults();
                         break choice_loop;
                     case "4":
+                        Kassere kas = new Kassere();
+                        kas.menu();
                         break;
                           case "5":
                         SwimManager.registerTime();
