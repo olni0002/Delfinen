@@ -14,7 +14,7 @@ public class Main {
             
             choice_loop:
             while (true) {
-                System.out.print("Choose an option (0 to exit) [1-4]: ");
+                System.out.print("Choose an option (0 to exit) [1-7]: ");
                 choice = console.nextLine();
 
                 switch (choice) {
@@ -28,6 +28,17 @@ public class Main {
                         new RegisterTournamentResults();
                         break choice_loop;
                     case "4":
+                        break;
+                          case "5":
+                        SwimManager.registerTime();
+                        break;
+                    case "6":
+                        System.out.print("Please tell me the discipline to print top 5 times: ");
+                        String disciplinToPrint = console.nextLine();
+                        SwimManager.printTopFiveTimes(disciplinToPrint + ".txt");
+                        break;
+                    case "7":
+                        
                 }
             }
         }
