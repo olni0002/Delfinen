@@ -51,7 +51,7 @@ public class SwimManager {
         }
     }
 
-    public void registerTime() {
+    public static void registerTime() {
         Scanner scanner1 = new Scanner(System.in);
         System.out.print("Please input the swimmers name: ");
         String navn = scanner1.nextLine();
@@ -77,7 +77,7 @@ public class SwimManager {
 
     }
 
-    private static void printTopFiveTimes(String fileName) {
+    public static void printTopFiveTimes(String fileName) {
         try (Scanner activityScanner = new Scanner(new File(fileName))) {
             List<String> times = new ArrayList<>();
 
