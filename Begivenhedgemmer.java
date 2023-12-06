@@ -1,5 +1,3 @@
-package test;
-
 import java.io.*;
 import java.security.spec.ECField;
 import java.time.LocalDate;
