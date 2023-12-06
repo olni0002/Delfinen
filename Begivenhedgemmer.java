@@ -1,5 +1,4 @@
 import java.io.*;
-import java.security.spec.ECField;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -49,6 +48,7 @@ public class Begivenhedgemmer {
                 while((value = reader.readLine()) != null){
                     System.out.println(value);
                 }
+                reader.close();
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             } catch (IOException e) {
@@ -106,6 +106,8 @@ public class Begivenhedgemmer {
                 while ((value = bufferedReader.readLine()) != null) {
                     list2.add(value);
                 }
+                bufferedReader.close();
+
                 for (int i = 0; i <list2.size() ; i++) {
                     String[] variableDeler = list2.get(i).split("  -  ");
                     String begivenhed1 = variableDeler[0];
