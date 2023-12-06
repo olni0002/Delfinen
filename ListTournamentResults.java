@@ -3,8 +3,6 @@ import java.util.*;
 
 public class ListTournamentResults {
     public void run() {
-        ConsoleCommands.clearScreen();
-
         try {
             if (!(new File("TournamentResults.csv").exists())) {
                 System.out.println("No tournament results registered for any member");
