@@ -7,7 +7,7 @@ public class ConfigureMember {
     public void run() {
 
         while (true) {
-            System.out.println("""
+            System.out.print("""
                 You have 4 options:
                 
                 \t1) Register new member
@@ -15,7 +15,8 @@ public class ConfigureMember {
                 \t3) Delete member
                 \t4) List members
 
-                Pick an option (0 to cancel) [1-4]: """);
+                Pick an option (0 to cancel) [1-4]: 
+                """);
 
             String choice = console.nextLine().strip();
             ConsoleCommands.clearScreen();
