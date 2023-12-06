@@ -35,10 +35,10 @@ public class Kassere {
 
     public void viewlist(){
         String value;
-        File file = new File("file.csv");
+        File file = new File("Members.csv");
         if(file.exists()){
             try {
-                BufferedReader reader = new BufferedReader(new FileReader("file.csv"));
+                BufferedReader reader = new BufferedReader(new FileReader("Members.csv"));
                 while((value = reader.readLine()) != null){
                     System.out.println(value);
                 }
@@ -60,10 +60,10 @@ public class Kassere {
         String value;
         boolean hassan = true;
 
-        File file = new File("file.csv");
+        File file = new File("Members.csv");
         if(file.exists()){
             try {
-                BufferedReader bufferedReader = new BufferedReader(new FileReader("file.csv"));
+                BufferedReader bufferedReader = new BufferedReader(new FileReader("Members.csv"));
                 while ((value = bufferedReader.readLine()) != null) {
                     strings1.add(value);
                 }
@@ -99,7 +99,7 @@ public class Kassere {
                 }
 
 
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter("file.csv"))) {
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter("Members.csv"))) {
                     for (int i = 0; i < strings1.size(); i++) {
                         writer.write(strings1.get(i));
                         writer.newLine();
