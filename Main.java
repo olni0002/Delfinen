@@ -26,24 +26,25 @@ public class Main {
                     case "2":
                         Begivenhedgemmer beg = new Begivenhedgemmer();
                         beg.menu();
-                        break;
+                        break choice_loop;
                     case "3":
                         new RegisterTournamentResults();
                         break choice_loop;
                     case "4":
+                        new ListTournamentResults().run();
+                        break choice_loop;
+                    case "5":
                         Kassere kas = new Kassere();
                         kas.menu();
-                        break;
-                    case "5":
-                        SwimManager.registerTime();
-                        break;
+                        break choice_loop;
                     case "6":
+                        SwimManager.registerTime();
+                        break choice_loop;
+                    case "7":
                         System.out.print("Please tell me the discipline to print top 5 times: ");
                         String disciplinToPrint = console.nextLine();
                         SwimManager.printTopFiveTimes(disciplinToPrint + ".txt");
-                        break;
-                    case "7":
-                        
+                        break choice_loop;
                 }
             }
         }
@@ -56,11 +57,12 @@ public class Main {
                 You now have a number of options to choose from:
 
                 \t1) Configure member (Registration, deletion etc.)
-                \t2) Manage training results of swimmers
+                \t2) Manage events
                 \t3) Register tournament results of swimmers
-                \t4) Manage financials (Payment status, revenue etc.)
-                \t5) Register training result.
-                \t6) Print top 5 times.
+                \t4) List tournament results of swimmers
+                \t5) Manage financials (Payment status, revenue etc.)
+                \t6) Register training result.
+                \t7) Print top 5 times.
                 """);
     }
 }
