@@ -6,46 +6,46 @@ public class Main {
     }
 
     private void run() {
+        ConsoleCommands.clearScreen();
+
         Scanner console = new Scanner(System.in);
         String choice;
         
         while (true) {
             showMenu();
             
-            choice_loop:
-            while (true) {
-                System.out.print("Choose an option (0 to exit) [1-7]: ");
-                choice = console.nextLine();
+            System.out.print("Choose an option (0 to exit) [1-7]: ");
+            choice = console.nextLine();
+            ConsoleCommands.clearScreen();
 
-                switch (choice) {
-                    case "0":
-                        System.exit(0);
-                    case "1":
-                        new ConfigureMember().run();
-                        break choice_loop;
-                    case "2":
-                        Begivenhedgemmer beg = new Begivenhedgemmer();
-                        beg.menu();
-                        break choice_loop;
-                    case "3":
-                        new RegisterTournamentResults();
-                        break choice_loop;
-                    case "4":
-                        new ListTournamentResults().run();
-                        break choice_loop;
-                    case "5":
-                        Kassere kas = new Kassere();
-                        kas.menu();
-                        break choice_loop;
-                    case "6":
-                        SwimManager.registerTime();
-                        break choice_loop;
-                    case "7":
-                        System.out.print("Please tell me the discipline to print top 5 times: ");
-                        String disciplinToPrint = console.nextLine();
-                        SwimManager.printTopFiveTimes(disciplinToPrint + ".txt");
-                        break choice_loop;
-                }
+            switch (choice) {
+                case "0":
+                    System.exit(0);
+                case "1":
+                    new ConfigureMember().run();
+                    break;
+                case "2":
+                    Begivenhedgemmer beg = new Begivenhedgemmer();
+                    beg.menu();
+                    break;
+                case "3":
+                    new RegisterTournamentResults();
+                    break;
+                case "4":
+                    new ListTournamentResults().run();
+                    break;
+                case "5":
+                    Kassere kas = new Kassere();
+                    kas.menu();
+                    break;
+                case "6":
+                    SwimManager.registerTime();
+                    break;
+                case "7":
+                    System.out.print("Please tell me the discipline to print top 5 times: ");
+                    String disciplinToPrint = console.nextLine();
+                    SwimManager.printTopFiveTimes(disciplinToPrint + ".txt");
+                    break;
             }
         }
     }
