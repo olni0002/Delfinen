@@ -14,43 +14,39 @@ public class ConfigureMember {
                 \t2) Edit member details
                 \t3) Delete member
                 \t4) List members
-                """);
-            
-            choice_loop:
-            while (true) {
-                System.out.print("Pick an option (0 to cancel) [1-4]: ");
-                String choice = console.nextLine().strip();
-                ConsoleCommands.clearScreen();
 
-                switch (choice) {
-                    case "0":
-                        return;
-                    case "1":
-                        new RegisterMember().run();
-                        break choice_loop;
-                    case "2":
-                        System.out.print("Which member do you want to edit?: ");
-                        String memberName = console.nextLine().strip();
-                        ConsoleCommands.clearScreen();
+                Pick an option (0 to cancel) [1-4]: """);
 
-                        if (!(CheckUserInput.nameExists(memberName))) {
-                            System.out.println(memberName + " is not a registered member.\n");
-                            break choice_loop;
-                        }
+            String choice = console.nextLine().strip();
+            ConsoleCommands.clearScreen();
 
-                        new EditMemberDetails(memberName).run();
-                        break choice_loop;
-                    case "3":
-                        System.out.print("Which member(s) do you want to delete (semicolon seperated list)?: ");
-                        String[] names = console.nextLine().strip().split(";");
-                        ConsoleCommands.clearScreen();
-                        deleteMember(names);
-                        break choice_loop;
-                    case "4":
-                        listMembers();
-                        break choice_loop;
+            switch (choice) {
+                case "0":
+                    return;
+                case "1":
+                    new RegisterMember().run();
+                    break;
+                case "2":
+                    System.out.print("Which member do you want to edit?: ");
+                    String memberName = console.nextLine().strip();
+                    ConsoleCommands.clearScreen();
 
-                }
+                    if (!(CheckUserInput.nameExists(memberName))) {
+                        System.out.println(memberName + " is not a registered member.\n");
+                        break;
+                    }
+
+                    new EditMemberDetails(memberName).run();
+                    break;
+                case "3":
+                    System.out.print("Which member(s) do you want to delete (semicolon seperated list)?: ");
+                    String[] names = console.nextLine().strip().split(";");
+                    ConsoleCommands.clearScreen();
+                    deleteMember(names);
+                    break;
+                case "4":
+                    listMembers();
+                    break;
             }
         }
     }
