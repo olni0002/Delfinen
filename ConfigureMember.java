@@ -17,6 +17,7 @@ public class ConfigureMember {
                 """);
             
             System.out.print("Pick an option (0 to cancel) [1-4]: ");
+
             String choice = console.nextLine().strip();
             ConsoleCommands.clearScreen();
 
