@@ -114,7 +114,7 @@ public class Kassere {
             }
 
             System.out.println("DUES PAYMENT LIST");
-            for (int i = 0; i < (strings1.size()-2); i++) {
+            for (int i = 0; i < (strings1.size()); i++) {
                 String[] variableDeler = strings1.get(i).split(";");
                 String name = variableDeler[0];
                 String birthDate = variableDeler[1];
