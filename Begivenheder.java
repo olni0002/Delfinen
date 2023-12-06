@@ -1,14 +1,5 @@
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Scanner;
 
 public class Begivenheder{
     private LocalDate dag;
@@ -16,7 +7,7 @@ public class Begivenheder{
     private LocalTime tid;
 
 
-    Begivenheder(LocalDate dag,String begivenhed,LocalTime tid){
+    public Begivenheder(LocalDate dag, String begivenhed, LocalTime tid) {
         setBegivenhed(begivenhed);
         setDag(dag);
         setTid(tid);
