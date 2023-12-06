@@ -28,7 +28,7 @@ public class MemberList {
             for (Member member : memberList.values()) {
                 fileWriter.write(member.getName() + ";");
                 fileWriter.write(member.getBirthDate() + ";");
-                fileWriter.write(member.getActivity());
+                fileWriter.write(member.getActivity() + ";");
                 fileWriter.write(member.getRegistrationDate() + ";");
                 fileWriter.write(member.getPaymentStatus() + "\n");
             }
