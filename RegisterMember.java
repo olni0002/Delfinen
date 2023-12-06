@@ -57,15 +57,15 @@ public class RegisterMember {
     }
 
     private int overrideOrConfigure(String name) {
-        System.out.print("""
+        System.out.println("""
             Member with this name already exists.
             You can either:
 
             \t1) Override member
             \t2) Change member details
+            """);
 
-            Which option do you choose (0 to cancel)? [1-2]: """);
-        
+        System.out.print("Which option do you choose (0 to cancel)? [1-2]: ");
         String choice = console.nextLine().strip();
 
         return switch (choice) {
