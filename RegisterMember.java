@@ -5,10 +5,26 @@ public class RegisterMember {
     Scanner console = new Scanner(System.in);
     
     public void run() {
+
         System.out.print("Write name of new member: ");
         String name = console.nextLine().strip();
+        
         if (CheckUserInput.nameExists(name)) {
-            overrideOrConfigure(name);
+            int choice = -1;
+            while (choice != 1) {
+                ConsoleCommands.clearScreen();
+
+                switch (choice) {
+                    case -1:
+                        choice = overrideOrConfigure(name);
+                        break;
+                    case 0:
+                        return;
+                    case 2:
+                        new EditMemberDetails(name).run();
+                        return;
+                }
+            }
         }
 
         String birthDate;
@@ -40,33 +56,23 @@ public class RegisterMember {
         newMember.writeMemberToFile();
     }
 
-    private void overrideOrConfigure(String name) {
+    private int overrideOrConfigure(String name) {
         System.out.print("""
             Member with this name already exists.
             You can either:
 
             \t1) Override member
             \t2) Change member details
-            """);
 
-        while (true) {
-            System.out.print("Which option do you choose (0 to cancel)? [1-2]: ");
-            String choice = console.nextLine().strip();
-            ConsoleCommands.clearScreen();
+            Which option do you choose (0 to cancel)? [1-2]: """);
+        
+        String choice = console.nextLine().strip();
 
-            switch (choice) {
-                case "1":
-                    return;
-                case "2":
-                    new EditMemberDetails(name).run();
-                case "0":
-                    new ConfigureMember().run();
-
-                    // run main options loop
-
-                    ConsoleCommands.clearScreen();
-                    System.exit(0);
-            }
-        }
+        return switch (choice) {
+            case "0" -> 0;
+            case "1" -> 1;
+            case "2" -> 2;
+            default -> -1;
+        };
     }
 }

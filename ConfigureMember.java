@@ -5,9 +5,10 @@ public class ConfigureMember {
     Scanner console = new Scanner(System.in);
 
     public void run() {
+
         while (true) {
             System.out.println("""
-                You have 3 options:
+                You have 4 options:
                 
                 \t1) Register new member
                 \t2) Edit member details
@@ -86,11 +87,20 @@ public class ConfigureMember {
                 System.out.println("There are no registered members.\n");
                 return;
             }
+
+            var fileScanner = new Scanner(members);
+            if (!(fileScanner.hasNextLine())) {
+                fileScanner.close();
+                System.out.println("There are no registered members.\n");
+                return;
+            }
+            fileScanner.close();
         } catch (Exception e) {}
 
         HashMap<String, Member> memberList = MemberList.loadMemberList();
         for (String name : memberList.keySet()) {
             System.out.println(name);
         }
+        System.out.println();
     }
 }
