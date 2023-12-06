@@ -20,11 +20,11 @@ public class Member {
         try {
             var fileWriter = new FileWriter(new File("Members.csv"), true);
             
-            fileWriter.append(this.getName() + ";");
-            fileWriter.append(this.getBirthDate() + ";");
-            fileWriter.append(this.getActivity());
-            fileWriter.append(this.getRegistrationDate() + ";");
-            fileWriter.append(this.getPaymentStatus() + "\n");
+            fileWriter.append(this.name + ";");
+            fileWriter.append(this.birthDate + ";");
+            fileWriter.append(this.activity + ";");
+            fileWriter.append(this.registrationDate + ";");
+            fileWriter.append(this.paymentStatus + "\n");
 
             fileWriter.close();
         } catch(Exception e) {}
