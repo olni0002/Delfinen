@@ -59,14 +59,14 @@ public class SwimManager {
         System.out.print("please tell me the time-result of the practice: (Format example: (1 Minute and 20 seconds) ");
         String tid = scanner1.nextLine();
 
-        System.out.print("Please tell me the date the time was swam on: ");
+        System.out.print("Please tell me the date the time was swam on: (yyyy-mm-dd) ");
         String dato = scanner1.nextLine();
 
         // Opret en SwimActivity-objekt
         SwimActivity swimActivity = new SwimActivity(navn, tid, dato);
 
         // Vælg hvilken disciplin der er svømmet (f.eks. "Butterfly")
-        System.out.print("Please tell me the discipline that was swam: ");
+        System.out.print("Please tell me the discipline that was swam: Disciplines (Freestyle, Backstroke, Breaststroke, Crawl, Butterfly) ");
         String disciplin = scanner1.nextLine();
 
         // Vælg hvilken fil du vil gemme i baseret på disciplinen
