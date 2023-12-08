@@ -16,7 +16,7 @@ public class RegisterTournamentResults {
 
         HashMap<String, Member> memberList = MemberList.loadMemberList();
 
-        if (memberList.get(memberName).getActivity() != "competitive") {
+        if (!(memberList.get(memberName).getActivity().equals("competitive"))) {
             System.out.println(memberName + " is not a competitive swimmer.");
             return;
         }
